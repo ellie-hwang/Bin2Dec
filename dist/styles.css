@@ -11,3 +11,7 @@
 .btn-primary:hover {
   background-color: #ff9100;
 }
+
+.display-none {
+  display: none;
+}

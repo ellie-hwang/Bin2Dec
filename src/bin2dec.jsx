@@ -6,8 +6,8 @@ class Bin2Dec extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      binaryValue: null,
-      decimalValue: null,
+      binaryValue: '',
+      decimalValue: '',
       invalidInput: true
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -17,6 +17,23 @@ class Bin2Dec extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log('i ran');
+    if (this.state.invalidInput === false) {
+      console.log('I also ran');
+      let binaryValue = this.state.binaryValue;
+      console.log(typeof binaryValue);
+      let decimalValue = 0;
+      let array = binaryValue.split('').reverse();
+      console.log(array);
+      array = array.map(x => Number(x));
+
+      for (let i = 0; i < array.length; i++) {
+        decimalValue += (Math.pow(2, i) * array[i]);
+      }
+      this.setState({
+        decimalValue: decimalValue
+      })
+    }
   }
 
   validateInput(binaryValue) {
@@ -47,22 +64,22 @@ class Bin2Dec extends React.Component {
       <div className="container-fluid">
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col-6">
-            <Form onSubmit={this.handleSubmit}>
+            <Form id="bin-to-dec" onSubmit={this.handleSubmit}>
               <div className="row mb-3">
                 <Form.Label htmlFor="binaryValue" className="col-4 col-form-label text-end">BINARY</Form.Label>
                 <div className="col-8">
-                  <Form.Control required type="number" value={this.binaryValue} placeholder="Enter value" id="binaryValue" onChange={this.handleChange} />
-                  <p className={invalidInput}>Please enter a binary value (0's and 1's only)!</p>
+                  <Form.Control required type="number" value={this.state.binaryValue} placeholder="Enter value" id="binaryValue" onChange={this.handleChange} />
+                  <p className={`m-0 ${invalidInput}`}>Please enter 0's and 1's only!</p>
                 </div>
               </div>
               <div className="row mb-3">
                 <Form.Label htmlFor="decimalValue" className="col-4 col-form-label text-end">DECIMAL</Form.Label>
                 <div className="col-8">
-                  <Form.Control readOnly type="number" value={this.decimalValue} id="decimalValue" />
+                  <Form.Control readOnly type="number" value={this.state.decimalValue} id="decimalValue" />
                 </div>
               </div>
               <div className="text-end">
-                <Button type="submit">Convert</Button>
+                <button className="submit-btn" type="submit">Convert</button>
               </div>
             </Form>
           </div>
